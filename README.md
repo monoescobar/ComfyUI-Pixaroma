@@ -373,6 +373,23 @@ Master the Pixaroma suite with our video guides and workflow deep-dives:
 
 ---
 
+## ✅ Development and node-contract checks
+
+Pixaroma treats internal node type names, input order, outputs, and saved
+workflow restoration as compatibility contracts. Before a release, run:
+
+```bash
+python scripts/release_preflight.py
+python scripts/node_contract_audit.py --expected 79
+python -m unittest discover -s tests -v
+```
+
+The contract audit covers all 79 production-registered node types, requires a
+display name and node-level description for each one, and excludes the two
+developer-only reference nodes that are disabled in normal installations.
+See [docs/NODE_CONTRACT_AUDIT.md](docs/NODE_CONTRACT_AUDIT.md) for scope and
+interpretation. GitHub Actions and GitLab release checks run independently.
+
 ## 🛠 Changelog
 
 ### **August 25, 2026 · v1.4.123–1.4.126**
