@@ -21,6 +21,7 @@ jobs:
       - name: Compile Python
         run: python -m compileall -q __init__.py nodes scripts tests
       - name: Release preflight
+        if: matrix.python-version == '3.12'
         run: python scripts/release_preflight.py
       - name: Node contract audit
         run: python scripts/node_contract_audit.py --expected 79
