@@ -210,14 +210,20 @@ class PixaromaLoopEngine:
     body + itself and re-runs with the next index and updated carried values,
     otherwise it emits the final carried values.
     """
+    DESCRIPTION = (
+        "Internal recursion driver created automatically by Loop End Pixaroma. "
+        "Do not place or wire this node manually; use Loop Start and Loop End. "
+        "It clones the enclosed graph section, advances the zero-based index, "
+        "and returns the final carried values after the requested rounds."
+    )
 
     @classmethod
     def INPUT_TYPES(cls):
         inputs = {
             "required": {
-                "loop": ("FLOW_CONTROL", {"rawLink": True}),
-                "index_in": (ANY,),
-                "total": (ANY,),
+                "loop": ("FLOW_CONTROL", {"rawLink": True, "tooltip": "Internal raw link to the Loop Start bracket."}),
+                "index_in": (ANY, {"tooltip": "Internal current-round index emitted by Loop Start."}),
+                "total": (ANY, {"tooltip": "Internal requested number of rounds."}),
             },
             "optional": {},
             "hidden": {
@@ -226,11 +232,17 @@ class PixaromaLoopEngine:
             },
         }
         for i in range(1, NUM + 1):
-            inputs["optional"]["value%d" % i] = (ANY,)
+            inputs["optional"]["value%d" % i] = (
+                ANY,
+                {"tooltip": "Internal carried value %d supplied by Loop End." % i},
+            )
         return inputs
 
     RETURN_TYPES = tuple([ANY] * NUM)
     RETURN_NAMES = tuple(["value%d" % i for i in range(1, NUM + 1)])
+    OUTPUT_TOOLTIPS = tuple(
+        ["Internal final carried value %d returned to Loop End." % i for i in range(1, NUM + 1)]
+    )
     FUNCTION = "run"
     CATEGORY = "👑 Pixaroma/🔀 Logic & Flow/⚙️ Internal"
 

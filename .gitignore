@@ -9,7 +9,8 @@ pixaroma_model_hashes.json
 .claude
 .superpowers
 docs/superpowers/
-tests/
+# Repository contract tests are source and must be versioned.
+# (Model or output test artifacts should be ignored by their own patterns.)
 
 # C extensions
 *.so
